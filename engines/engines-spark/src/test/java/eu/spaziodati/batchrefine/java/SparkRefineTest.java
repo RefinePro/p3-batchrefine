@@ -32,13 +32,14 @@ public class SparkRefineTest extends EngineTest {
                 {"osterie", "column-split", "csv", CallType.sync},
                 {"osterie", "column-addition-by-fetching-urls", "csv", CallType.async},
                 {"osterie", "text-transform", "csv", CallType.sync},
-                {"osterie", "rdfize", "rdf", CallType.sync},
-                {"osterie", "rdfize", "turtle", CallType.sync},
+                // {"osterie", "rdfize", "rdf", CallType.sync},
+                // {"osterie", "rdfize", "turtle", CallType.sync},
                 {"high-earners", "multivalued-cell-join", "csv", CallType.sync},
                 {"high-earners", "multivalued-cell-split", "csv", CallType.sync},
-                {"high-earners", "transpose-columns-into-rows", "csv", CallType.sync},
-                {"high-earners", "save-rdf-schema", "rdf", CallType.sync},
-                {"high-earners", "save-rdf-schema", "turtle", CallType.sync}});
+                {"high-earners", "transpose-columns-into-rows", "csv", CallType.sync}
+                // {"high-earners", "save-rdf-schema", "rdf", CallType.sync},
+                // {"high-earners", "save-rdf-schema", "turtle", CallType.sync}
+		});
 
     }
 }
