@@ -45,7 +45,7 @@ public class BatchRefineBase {
 				{ "high-earners", "blank-down", "csv", CallType.sync },
 				{ "high-earners", "transpose-columns-into-rows", "csv", CallType.sync },
 				{ "high-earners", "transpose-rows-into-columns", "csv", CallType.sync },
-				{ "high-earners", "key-value-columnize", "csv", CallType.sync } 
+				// { "high-earners", "key-value-columnize", "csv", CallType.sync }      // OR itself throw IndexOutOfBoundsException
 				// { "high-earners", "save-rdf-schema", "rdf", CallType.sync }, 
 				// { "high-earners", "save-rdf-schema", "turtle", CallType.sync } 
 				});

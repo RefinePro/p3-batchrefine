@@ -25,11 +25,19 @@ public abstract class EngineTest extends BatchRefineBase {
 		File reference = findAndCopy("outputs/" + fInput + "_" + fTransform
 				+ "." + fFormat);
 		File output = EngineTestUtils.outputFile();
-
+                
+                System.out.println("==============================================================================>");
+                System.out.println("Doing the transformation: " + fTransform);
+                System.out.println("reference: " + reference.getAbsolutePath());
+                System.out.println("output: " + output.getAbsolutePath());
+                
 		try (ITransformEngine engine = engine()) {
 			engine.transform(findAndCopy("inputs/" + fInput + ".csv").toURI(),
 					transform, output.toURI(), properties());
 		}
+                System.out.println("Done the transformation: " );
+                 System.out.println("<==============================================================================");
+                
 		if (fFormat.equals("rdf"))
 			assertRDFEquals(FileUtils.readFileToString(output),
 					FileUtils.readFileToString(reference),
