@@ -14,6 +14,10 @@ public class SparkRefineTest extends EngineTest {
     public SparkRefineTest(String input, String transform, String format,
                            CallType type) {
         super(input, transform, format, type);
+        
+        // winutil.exe workaround http://qnalist.com/questions/4994960/run-spark-unit-test-on-windows-7
+        if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0)
+            System.setProperty("hadoop.home.dir", "c:\\winutil\\");
     }
 
     @Override

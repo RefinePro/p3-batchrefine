@@ -6,7 +6,7 @@ import eu.fusepool.p3.transformer.server.TransformerServer;
 import eu.spaziodati.eu.clients.core.commands.EngineCommand;
 import eu.spaziodati.eu.clients.core.commands.RemoteCommand;
 import eu.spaziodati.eu.clients.core.commands.SparkCommand;
-import eu.spaziodati.eu.clients.core.commands.SplitCommand;
+//import eu.spaziodati.eu.clients.core.commands.SplitCommand;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.kohsuke.args4j.*;
@@ -27,10 +27,9 @@ public class BatchRefineTransformerCLI {
         sync, async
     }
 
-    @Argument(handler = SubCommandHandler.class, required = true, metaVar = "[remote | spark | split]", usage = "configure engine type")
+    @Argument(handler = SubCommandHandler.class, required = true, metaVar = "[remote | spark]", usage = "configure engine type")
     @SubCommands({
             @SubCommand(name = "remote", impl = RemoteCommand.class),
-            @SubCommand(name = "split", impl = SplitCommand.class),
             @SubCommand(name = "spark", impl = SparkCommand.class)
     })
     EngineCommand cmd;

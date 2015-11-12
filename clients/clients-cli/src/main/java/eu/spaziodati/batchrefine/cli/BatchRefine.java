@@ -33,7 +33,6 @@ public class BatchRefine {
     @SubCommands({
             @SubCommand(name = "remote", impl = RemoteCommand.class),
             @SubCommand(name = "embedded", impl = EmbeddedCommand.class),
-            @SubCommand(name = "split", impl = SplitCommand.class),
             @SubCommand(name = "spark", impl = SparkCommand.class)
     })
     EngineCommand cmd;

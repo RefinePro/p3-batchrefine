@@ -39,7 +39,8 @@ public class SparkRefine implements ITransformEngine {
         // TODO as it is difficult to deploy, currently we use default
         // configuration
         // to run spark in local mode.
-        SPARK_MASTER_URL = config.getProperty("spark.master", "local");
+//        SPARK_MASTER_URL = config.getProperty("spark.master", "local");
+        SPARK_MASTER_URL = config.getProperty("spark.master", "spark://ec2-54-90-238-163.compute-1.amazonaws.com:7077");
         sparkContext = new JavaSparkContext(configureDefault());
     }
 

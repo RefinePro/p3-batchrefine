@@ -86,12 +86,6 @@
 
         <dependency>
             <groupId>eu.spaziodati.batchrefine</groupId>
-            <artifactId>engines-split</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>eu.spaziodati.batchrefine</groupId>
             <artifactId>engines-http</artifactId>
             <version>${project.version}</version>
         </dependency>

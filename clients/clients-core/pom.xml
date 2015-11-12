@@ -64,12 +64,6 @@
 
         <dependency>
             <groupId>eu.spaziodati.batchrefine</groupId>
-            <artifactId>engines-split</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>eu.spaziodati.batchrefine</groupId>
             <artifactId>engines-spark</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
