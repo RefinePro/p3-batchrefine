@@ -51,22 +51,29 @@ public class SparkRefine implements ITransformEngine {
         exporterOptions.put("filename",
                 FilenameUtils.getBaseName(original.toString()));
         try {
+            // share the header and exporter options to all worker nodes
             Broadcast<String> header = sparkContext.broadcast(lines.first());
             Broadcast<Properties> exporterProperties = sparkContext
                     .broadcast(exporterOptions);
-
+            
+            // Do the map and store the result as RDD:
             JavaRDD<String> result = lines.mapPartitionsWithIndex(
                     new ChunkProcessingTask(transformRules, header,
                             exporterProperties), true);
-
+            
+            // /tmp/spark is the workspace to reassemable the files
             Path tmpFolder = new File(exporterOptions.getProperty("tmp.folder",
                     "/tmp/")).toPath();
 
             File tempDirectory = Files.createTempDirectory(tmpFolder, "spark")
                     .toFile();
+            // clean up workspace firstly:
             tempDirectory.delete();
-
+            
+            // save the RDD as text files to the temp folder
             result.saveAsTextFile(tempDirectory.toString());
+            
+            // combine all the files above into a final csv file
             PartFilesReassembly.reassembleFiles(tempDirectory, new File(
                     transformed), exporterOptions.getProperty("format", "csv"));
         } catch (Exception e) {

@@ -13,6 +13,11 @@ import org.apache.spark.broadcast.Broadcast;
 import org.json.JSONArray;
 
 import eu.spaziodati.batchrefine.core.http.RefineHTTPClient;
+import eu.spaziodati.batchrefine.core.spark.storage.FileSystemOperation;
+import eu.spaziodati.batchrefine.core.spark.storage.StorageEngine;
+import eu.spaziodati.batchrefine.core.spark.storage.FileSystemOperation;
+import eu.spaziodati.batchrefine.core.spark.storage.TachyonOperation;
+import java.net.URI;
 
 @SuppressWarnings("serial")
 public class ChunkProcessingTask implements
@@ -31,16 +36,39 @@ public class ChunkProcessingTask implements
 		fProperites = exporterProperties.getValue();
 	}
 
+        /**
+         * This function generate the source dataset, transform it and export it.
+         * @see https://spark.apache.org/docs/1.4.0/api/java/index.html?org/apache/spark/api/java/function/Function2.html
+         * @param v1
+         * @param v2
+         * @return
+         * @throws Exception 
+         */
 	@Override
 	public Iterator<String> call(Integer v1, Iterator<String> v2)
 			throws Exception {
 		List<String> list = null;
-		File tmpOut = null;
-		File tmpFile = null;
+//		File tmpOut = null;
+//		File tmpFile = null;
+                StorageEngine storageEngine = new StorageEngine(new TachyonOperation(v1, v2, fProperites, fHeader));
+                
 		try {
 			RefineHTTPClient engine = new RefineHTTPClient(REFINE_HOST,
 					REFINE_PORT);
-
+                        
+                        
+                    //////////
+                    URI srcURI = storageEngine.getSourceURI();
+                    storageEngine.writeDataset();
+                    URI exportURI = storageEngine.getExportURI();
+                    engine.transform(srcURI, new JSONArray(fTansform),
+					exportURI, fProperites);
+                    list = storageEngine.getLines(); // FileUtils.readLines(tmpOut);
+                    engine.close();
+                    System.err.println("done " + v1);    
+                    ////////
+                        
+                    /**
 			tmpFile = new File("/tmp/tmp" + v1
 					+ fProperites.getProperty("fileanme", "inputfile") + ".csv");
 
@@ -61,11 +89,12 @@ public class ChunkProcessingTask implements
 			list = FileUtils.readLines(tmpOut);
 			engine.close();
 			System.err.println("done " + v1);
+                    **/
 		} catch (Exception e) {
+                        // TODO: report to master node.
 			throw e;
 		} finally {
-			FileUtils.deleteQuietly(tmpFile);
-			FileUtils.deleteQuietly(tmpOut);
+                    storageEngine.cleanup();
 		}
 		return list.iterator();
 	}
